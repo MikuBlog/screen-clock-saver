@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import AppKit
 
 struct ClockPreview: NSViewRepresentable {
     let settings: ClockSettings
@@ -18,14 +19,27 @@ struct ClockPreview: NSViewRepresentable {
 }
 
 enum PreviewRatio: String, CaseIterable, Identifiable {
+    case currentScreen
     case wide169
     case ultra219
     case standard43
     case vertical916
 
     var id: String { rawValue }
+
+    /// 主屏物理像素尺寸（点尺寸 × 缩放系数）
+    static func mainScreenPixelSize() -> (width: Int, height: Int) {
+        guard let screen = NSScreen.main else { return (0, 0) }
+        let scale = screen.backingScaleFactor
+        return (Int((screen.frame.width * scale).rounded()),
+                Int((screen.frame.height * scale).rounded()))
+    }
+
     var label: String {
         switch self {
+        case .currentScreen:
+            let (w, h) = Self.mainScreenPixelSize()
+            return w > 0 ? "当前屏幕 \(w)×\(h)" : "当前屏幕"
         case .wide169: return "16:9 宽屏"
         case .ultra219: return "21:9 带鱼屏"
         case .standard43: return "4:3 标准"
@@ -34,6 +48,11 @@ enum PreviewRatio: String, CaseIterable, Identifiable {
     }
     var aspect: CGFloat {
         switch self {
+        case .currentScreen:
+            guard let screen = NSScreen.main, screen.frame.height > 0 else {
+                return 16.0 / 9.0
+            }
+            return screen.frame.width / screen.frame.height
         case .wide169: return 16.0 / 9.0
         case .ultra219: return 21.0 / 9.0
         case .standard43: return 4.0 / 3.0
@@ -44,7 +63,7 @@ enum PreviewRatio: String, CaseIterable, Identifiable {
 
 struct PreviewStage: View {
     @EnvironmentObject var model: AppModel
-    @State private var ratio: PreviewRatio = .wide169
+    @State private var ratio: PreviewRatio = .currentScreen
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {

@@ -253,12 +253,27 @@ public final class FlipClockView: NSView {
         case .automatic: horizontal = bounds.width >= bounds.height
         }
 
+        // 日期所在的角预留一条安全区，时钟在剩余区域内居中，避免压住日期
+        var container = bounds
+        if settings.showDate {
+            let dateFontSize = max(13, min(bounds.width, bounds.height) * 0.032) * scaleValue
+            let band = CGFloat(settings.dateMargin) * scaleValue + dateFontSize * 1.6
+            switch settings.datePosition {
+            case .topLeading, .topTrailing:
+                container = CGRect(x: bounds.minX, y: bounds.minY,
+                                   width: bounds.width, height: bounds.height - band)
+            case .bottomLeading, .bottomTrailing:
+                container = CGRect(x: bounds.minX, y: bounds.minY + band,
+                                   width: bounds.width, height: bounds.height - band)
+            }
+        }
+
         CATransaction.begin()
         CATransaction.setDisableActions(true)
 
         if horizontal {
-            let targetW = bounds.width * 0.94
-            let targetH = bounds.height * 0.92
+            let targetW = container.width * 0.94
+            let targetH = container.height * 0.92
             // 固定间距被可用宽度钳制，保证间距不参与溢出
             let gap = min(rawGap, n > 1 ? max(0, (targetW - 2) / CGFloat(n - 1)) : 0)
             let sumFactor = letterFlags.reduce(CGFloat(0)) { $0 + widthFactor(letter: $1) }
@@ -267,16 +282,16 @@ public final class FlipClockView: NSView {
             cardH *= scaleValue
             let totalW = letterFlags.enumerated().reduce(CGFloat(0)) { $0 + widthFactor(letter: $1.element) * cardH }
                 + gap * CGFloat(n - 1)
-            var x = (bounds.width - totalW) / 2
-            let y = (bounds.height - cardH) / 2
+            var x = container.minX + (container.width - totalW) / 2
+            let y = container.minY + (container.height - cardH) / 2
             for (i, view) in groupViews.enumerated() {
                 let w = widthFactor(letter: letterFlags[i]) * cardH
                 view.frame = CGRect(x: x, y: y, width: w, height: cardH)
                 x += w + gap
             }
         } else {
-            let targetW = bounds.width * 0.86
-            let targetH = bounds.height * 0.94
+            let targetW = container.width * 0.86
+            let targetH = container.height * 0.94
             let gap = min(rawGap, n > 1 ? max(0, (targetH - 2) / CGFloat(n - 1)) : 0)
             let sumHFactor = letterFlags.reduce(CGFloat(0)) { $0 + heightFactor(letter: $1) }
             // 数字卡为正方形：卡片宽 w、高 w；字母卡宽 w、高 0.42w
@@ -285,8 +300,8 @@ public final class FlipClockView: NSView {
             let totalH = letterFlags.enumerated().reduce(CGFloat(0)) { $0 + heightFactor(letter: $1.element) * cardW }
                 + gap * CGFloat(n - 1)
             // 标准 y-up 坐标：第一组在最上方，自上而下堆叠
-            var yTop = (bounds.height + totalH) / 2
-            let x = (bounds.width - cardW) / 2
+            var yTop = container.minY + (container.height + totalH) / 2
+            let x = container.minX + (container.width - cardW) / 2
             for (i, view) in groupViews.enumerated() {
                 let h = heightFactor(letter: letterFlags[i]) * cardW
                 yTop -= h
