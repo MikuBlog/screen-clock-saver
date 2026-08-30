@@ -1,0 +1,594 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+/* Begin PBXBuildFile section */
+		B23E322838A3E7E04A2BB634 /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 650695647BBEEC06A8ACEDB7 /* saver:ClockSettings.swift */;
+			isa = PBXBuildFile;
+		};
+		0DCCBCA3837F1A6645169392 /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 650695647BBEEC06A8ACEDB7 /* app:ClockSettings.swift */;
+			isa = PBXBuildFile;
+		};
+		A1B2C3D4E5F60718293A4B5C /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 1A2B3C4D5E6F7081920A1B2C /* saver:ClockFont.swift */;
+			isa = PBXBuildFile;
+		};
+		B2C3D4E5F60718293A4B5C6D /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 1A2B3C4D5E6F7081920A1B2C /* app:ClockFont.swift */;
+			isa = PBXBuildFile;
+		};
+		56194F81D044C43BC931CD1D /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = C5037554D42877C46C7DF47A /* saver:Theme.swift */;
+			isa = PBXBuildFile;
+		};
+		CE26673E065D841C47878A49 /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = C5037554D42877C46C7DF47A /* app:Theme.swift */;
+			isa = PBXBuildFile;
+		};
+		74D1F6CA170F0E4E2D295B4F /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 41B9C1240CA91CC34F34AB7B /* saver:SettingsStore.swift */;
+			isa = PBXBuildFile;
+		};
+		34513D7C29C9876A3B6B4689 /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 41B9C1240CA91CC34F34AB7B /* app:SettingsStore.swift */;
+			isa = PBXBuildFile;
+		};
+		E08ACE4E63998899C8CBD278 /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = A40D8B869EEDCCD15E87146D /* saver:FlipClockView.swift */;
+			isa = PBXBuildFile;
+		};
+		111CAF17517F231DBC47F92C /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = A40D8B869EEDCCD15E87146D /* app:FlipClockView.swift */;
+			isa = PBXBuildFile;
+		};
+		2C4C6F51646F6100D80538AC /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 5FDF697B276A299008812A42 /* saver:ScreenClockSaverView.swift */;
+			isa = PBXBuildFile;
+		};
+		12813A4ED57FFBE4B5FF948C /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = ECC42020CB83167A88FC0CC1 /* app:AppModel.swift */;
+			isa = PBXBuildFile;
+		};
+		C8ED22D6E464DDAC00866AEA /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = F8F112917F448FA5C194C294 /* app:StudioApp.swift */;
+			isa = PBXBuildFile;
+		};
+		D9C039D66DA82475A072981E /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = FFCE4B604936C7AFAD8AF7E6 /* app:ContentView.swift */;
+			isa = PBXBuildFile;
+		};
+		C5958C160C8843BA39C11E31 /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = B3D6982A8E3B4F65F4D7CA26 /* app:ClockPreview.swift */;
+			isa = PBXBuildFile;
+		};
+		CD0500AFA4AA78919A644513 /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 172358FFD1711D6EB96BC1A8 /* app:SaverInstaller.swift */;
+			isa = PBXBuildFile;
+		};
+		80EC4D2DCFFD855AD4C6906A /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = EA6636D411291A6339AA9C0C /* saver:ScreenSaver.framework */;
+			isa = PBXBuildFile;
+		};
+		D78C2C8A301DC1E24B0C524A /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 17462D79E48A3C7B1DEFCDA0 /* app:embed saver */;
+			isa = PBXBuildFile;
+		};
+/* End PBXBuildFile section */
+/* Begin PBXContainerItemProxy section */
+		6CB36FD364C3DAAC6EF256C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E7C32352CF056ED0D272D279;
+			remoteInfo = ScreenClockSaver;
+		};
+/* End PBXContainerItemProxy section */
+/* Begin PBXCopyFilesBuildPhase section */
+		5314AF6B024D1EC0D53FC2EF /* Embed Screen Saver */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				D78C2C8A301DC1E24B0C524A /* ScreenClock.saver in Resources */
+			);
+			name = "Embed Screen Saver";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+/* Begin PBXFileReference section */
+		650695647BBEEC06A8ACEDB7 /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ClockSettings.swift";
+			sourceTree = "<group>";
+		};
+		1A2B3C4D5E6F7081920A1B2C /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ClockFont.swift";
+			sourceTree = "<group>";
+		};
+		C5037554D42877C46C7DF47A /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Theme.swift";
+			sourceTree = "<group>";
+		};
+		41B9C1240CA91CC34F34AB7B /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SettingsStore.swift";
+			sourceTree = "<group>";
+		};
+		A40D8B869EEDCCD15E87146D /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "FlipClockView.swift";
+			sourceTree = "<group>";
+		};
+		5FDF697B276A299008812A42 /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ScreenClockSaverView.swift";
+			sourceTree = "<group>";
+		};
+		ECC42020CB83167A88FC0CC1 /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "AppModel.swift";
+			sourceTree = "<group>";
+		};
+		F8F112917F448FA5C194C294 /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "StudioApp.swift";
+			sourceTree = "<group>";
+		};
+		FFCE4B604936C7AFAD8AF7E6 /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ContentView.swift";
+			sourceTree = "<group>";
+		};
+		B3D6982A8E3B4F65F4D7CA26 /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ClockPreview.swift";
+			sourceTree = "<group>";
+		};
+		172358FFD1711D6EB96BC1A8 /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SaverInstaller.swift";
+			sourceTree = "<group>";
+		};
+		30D3DE85511598A3B7E4FE1B /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = "Info.plist";
+			sourceTree = "<group>";
+		};
+		7F62D0DB8A038C87635CC2EA /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = "Info.plist";
+			sourceTree = "<group>";
+		};
+		17462D79E48A3C7B1DEFCDA0 /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			explicitFileType = "wrapper.saver";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = "ScreenClock.saver";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AA46637AEE236C1B38DA0798 /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			explicitFileType = "wrapper.application";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = "ScreenClockStudio.app";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA6636D411291A6339AA9C0C /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = "ScreenSaver.framework";
+			path = "System/Library/Frameworks/ScreenSaver.framework";
+			sourceTree = SDKROOT;
+		};
+/* End PBXFileReference section */
+/* Begin PBXFrameworksBuildPhase section */
+		A3A2748AA14EFAFA68E879AA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80EC4D2DCFFD855AD4C6906A /* ScreenSaver.framework in Frameworks */
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F165A7AE1A13FBD7102A420 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+/* Begin PBXGroup section */
+		51B141E1E5C40FEE5FD5E5B6 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				650695647BBEEC06A8ACEDB7 /* ClockSettings.swift */,
+				1A2B3C4D5E6F7081920A1B2C /* ClockFont.swift */,
+				C5037554D42877C46C7DF47A /* Theme.swift */,
+				41B9C1240CA91CC34F34AB7B /* SettingsStore.swift */,
+				A40D8B869EEDCCD15E87146D /* FlipClockView.swift */
+			);
+			path = "Shared";
+			name = "Shared";
+		};
+		FEDA919B68D394FA63DBE58E /* Saver */ = {
+			isa = PBXGroup;
+			children = (
+				5FDF697B276A299008812A42 /* ScreenClockSaverView.swift */,
+				30D3DE85511598A3B7E4FE1B /* Info.plist */
+			);
+			path = "Saver";
+			name = "Saver";
+		};
+		C3477957E7818AEBFECD1CC9 /* Studio */ = {
+			isa = PBXGroup;
+			children = (
+				ECC42020CB83167A88FC0CC1 /* AppModel.swift */,
+				F8F112917F448FA5C194C294 /* StudioApp.swift */,
+				FFCE4B604936C7AFAD8AF7E6 /* ContentView.swift */,
+				B3D6982A8E3B4F65F4D7CA26 /* ClockPreview.swift */,
+				172358FFD1711D6EB96BC1A8 /* SaverInstaller.swift */,
+				7F62D0DB8A038C87635CC2EA /* Info.plist */
+			);
+			path = "Studio";
+			name = "Studio";
+		};
+		C863DA5204F95EC573510473 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17462D79E48A3C7B1DEFCDA0 /* ScreenClock.saver */,
+				AA46637AEE236C1B38DA0798 /* ScreenClockStudio.app */
+			);
+			name = "Products";
+		};
+		5DCD066AE8F41879044B82F4 /* screen-clock-saver */ = {
+			isa = PBXGroup;
+			children = (
+				51B141E1E5C40FEE5FD5E5B6 /* Shared */,
+				FEDA919B68D394FA63DBE58E /* Saver */,
+				C3477957E7818AEBFECD1CC9 /* Studio */,
+				C863DA5204F95EC573510473 /* Products */
+			);
+			name = "screen-clock-saver";
+		};
+/* End PBXGroup section */
+/* Begin PBXNativeTarget section */
+		E7C32352CF056ED0D272D279 /* ScreenClockSaver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C58F04FB7E10EFF867EFCE8B /* Build configuration list for PBXNativeTarget "ScreenClockSaver" */;
+			buildPhases = (
+				18A46DFEE737690C4AF650B7 /* Sources */,
+				A3A2748AA14EFAFA68E879AA /* Frameworks */
+			);
+			buildRules = (
+			);
+			dependencies = (
+
+			);
+			name = "ScreenClockSaver";
+			productName = "ScreenClockSaver";
+			productReference = 17462D79E48A3C7B1DEFCDA0 /* ScreenClock.saver */;
+			productType = "com.apple.product-type.bundle";
+		};
+		1EAF6B1C573B98DE03975706 /* ScreenClockStudio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C57B8E19E49BC7C33EC0693D /* Build configuration list for PBXNativeTarget "ScreenClockStudio" */;
+			buildPhases = (
+				0125729B289580691F777534 /* Sources */,
+				7F165A7AE1A13FBD7102A420 /* Frameworks */,
+				5314AF6B024D1EC0D53FC2EF /* Embed Screen Saver */
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1B63383940D0EFEEC36B235F /* ScreenClockSaver */
+			);
+			name = "ScreenClockStudio";
+			productName = "ScreenClockStudio";
+			productReference = AA46637AEE236C1B38DA0798 /* ScreenClockStudio.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+/* Begin PBXProject section */
+		46F86FAA6BBF9AC94A7E4595 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					E7C32352CF056ED0D272D279 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					1EAF6B1C573B98DE03975706 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+				};
+			};
+			buildConfigurationList = 887D4B5F61EA6AAAF609F3AC /* Build configuration list for PBXProject "ScreenClock" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = "zh-Hans";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				"zh-Hans",
+				Base,
+			);
+			mainGroup = 5DCD066AE8F41879044B82F4;
+			productRefGroup = C863DA5204F95EC573510473 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E7C32352CF056ED0D272D279 /* ScreenClockSaver */,
+				1EAF6B1C573B98DE03975706 /* ScreenClockStudio */,
+			);
+		};
+/* End PBXProject section */
+/* Begin PBXSourcesBuildPhase section */
+		18A46DFEE737690C4AF650B7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B23E322838A3E7E04A2BB634,
+				A1B2C3D4E5F60718293A4B5C,
+				56194F81D044C43BC931CD1D,
+				74D1F6CA170F0E4E2D295B4F,
+				E08ACE4E63998899C8CBD278,
+				2C4C6F51646F6100D80538AC
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0125729B289580691F777534 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0DCCBCA3837F1A6645169392,
+				B2C3D4E5F60718293A4B5C6D,
+				CE26673E065D841C47878A49,
+				34513D7C29C9876A3B6B4689,
+				111CAF17517F231DBC47F92C,
+				12813A4ED57FFBE4B5FF948C,
+				C8ED22D6E464DDAC00866AEA,
+				D9C039D66DA82475A072981E,
+				C5958C160C8843BA39C11E31,
+				CD0500AFA4AA78919A644513
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+/* Begin PBXTargetDependency section */
+		1B63383940D0EFEEC36B235F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ScreenClockSaver;
+			target = E7C32352CF056ED0D272D279 /* ScreenClockSaver */;
+			targetProxy = 6CB36FD364C3DAAC6EF256C6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+/* Begin XCBuildConfiguration section */
+		A1FEF218C4C57CE118AD5A8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = "gnu17";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+				"DEBUG=1",
+				"$(inherited)",
+			);
+				MACOSX_DEPLOYMENT_TARGET = "14.0";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = "macosx";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+		};
+		154E8AB3598F28F37C14E704 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Saver/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+				"$(inherited)",
+				"@loader_path/../Frameworks",
+			);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.doubao.screenclock.saver";
+				PRODUCT_NAME = "ScreenClock";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				WRAPPER_EXTENSION = "saver";
+			};
+		};
+		F81D34D9EA971A5EDC4B315B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Studio/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+				"$(inherited)",
+				"@executable_path/../Frameworks",
+			);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.doubao.screenclock.studio";
+				PRODUCT_NAME = "ScreenClockStudio";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+		};
+		D49EF4AC7029FD1A8C1140E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = "gnu17";
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = "14.0";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = "macosx";
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+		};
+		6890039F40894ECC0F395A01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Saver/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+				"$(inherited)",
+				"@loader_path/../Frameworks",
+			);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.doubao.screenclock.saver";
+				PRODUCT_NAME = "ScreenClock";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				WRAPPER_EXTENSION = "saver";
+			};
+		};
+		7087FCF1AD3F987A6F30C332 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Studio/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+				"$(inherited)",
+				"@executable_path/../Frameworks",
+			);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.doubao.screenclock.studio";
+				PRODUCT_NAME = "ScreenClockStudio";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+		};
+/* End XCBuildConfiguration section */
+/* Begin XCConfigurationList section */
+		887D4B5F61EA6AAAF609F3AC /* Build configuration list for PBXProject "ScreenClock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1FEF218C4C57CE118AD5A8A /* Debug */,
+				D49EF4AC7029FD1A8C1140E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C58F04FB7E10EFF867EFCE8B /* Build configuration list for PBXNativeTarget "ScreenClockSaver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				154E8AB3598F28F37C14E704 /* Debug */,
+				6890039F40894ECC0F395A01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C57B8E19E49BC7C33EC0693D /* Build configuration list for PBXNativeTarget "ScreenClockStudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F81D34D9EA971A5EDC4B315B /* Debug */,
+				7087FCF1AD3F987A6F30C332 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+}
