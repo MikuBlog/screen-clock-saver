@@ -241,7 +241,6 @@ public final class FlipClockView: NSView {
     private func layoutAll() {
         guard bounds.width > 2, bounds.height > 2, !groupViews.isEmpty else { return }
 
-        let n = groupViews.count
         let letterFlags = groups.map { Self.isLetterCard($0) }
         let scaleValue = CGFloat(max(0.4, min(1.0, settings.scale)))
         let rawGap = max(0, CGFloat(settings.cardGap))
@@ -253,23 +252,46 @@ public final class FlipClockView: NSView {
         case .automatic: horizontal = bounds.width >= bounds.height
         }
 
-        // 日期所在的角预留一条安全区，时钟在剩余区域内居中，避免压住日期
-        var container = bounds
-        if settings.showDate {
-            let dateFontSize = max(13, min(bounds.width, bounds.height) * 0.032) * scaleValue
-            let band = CGFloat(settings.dateMargin) * scaleValue + dateFontSize * 1.6
-            switch settings.datePosition {
-            case .topLeading, .topTrailing:
-                container = CGRect(x: bounds.minX, y: bounds.minY,
-                                   width: bounds.width, height: bounds.height - band)
-            case .bottomLeading, .bottomTrailing:
-                container = CGRect(x: bounds.minX, y: bounds.minY + band,
-                                   width: bounds.width, height: bounds.height - band)
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+
+        // 第一遍：始终以整块区域居中，保证视觉居中
+        var clockFrame = placeGroups(in: bounds, horizontal: horizontal,
+                                     letterFlags: letterFlags, scale: scaleValue, rawGap: rawGap)
+
+        // 第二遍：只有当时钟真的会压到角落的日期时，才在日期所在边让出安全区重新布局
+        if settings.showDate, let df = dateFrame() {
+            if clockFrame.insetBy(dx: -8, dy: -8).intersects(df) {
+                let dateFontSize = max(13, min(bounds.width, bounds.height) * 0.032) * scaleValue
+                let band = CGFloat(settings.dateMargin) * scaleValue + dateFontSize * 1.6
+                let container: CGRect
+                switch settings.datePosition {
+                case .topLeading, .topTrailing:
+                    container = CGRect(x: bounds.minX, y: bounds.minY,
+                                       width: bounds.width, height: bounds.height - band)
+                case .bottomLeading, .bottomTrailing:
+                    container = CGRect(x: bounds.minX, y: bounds.minY + band,
+                                       width: bounds.width, height: bounds.height - band)
+                }
+                clockFrame = placeGroups(in: container, horizontal: horizontal,
+                                         letterFlags: letterFlags, scale: scaleValue, rawGap: rawGap)
             }
         }
 
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
+        CATransaction.commit()
+        groupViews.forEach { $0.needsDisplay = true }
+        updateDateLabel()
+    }
+
+    /// 在给定容器内求解并摆放全部卡片组，返回卡片组整体外接矩形
+    @discardableResult
+    private func placeGroups(in container: CGRect,
+                             horizontal: Bool,
+                             letterFlags: [Bool],
+                             scale scaleValue: CGFloat,
+                             rawGap: CGFloat) -> CGRect {
+        let n = groupViews.count
+        var union: CGRect = .null
 
         if horizontal {
             let targetW = container.width * 0.94
@@ -287,6 +309,7 @@ public final class FlipClockView: NSView {
             for (i, view) in groupViews.enumerated() {
                 let w = widthFactor(letter: letterFlags[i]) * cardH
                 view.frame = CGRect(x: x, y: y, width: w, height: cardH)
+                union = union == .null ? view.frame : union.union(view.frame)
                 x += w + gap
             }
         } else {
@@ -306,13 +329,11 @@ public final class FlipClockView: NSView {
                 let h = heightFactor(letter: letterFlags[i]) * cardW
                 yTop -= h
                 view.frame = CGRect(x: x, y: yTop, width: cardW, height: h)
+                union = union == .null ? view.frame : union.union(view.frame)
                 yTop -= gap
             }
         }
-
-        CATransaction.commit()
-        groupViews.forEach { $0.needsDisplay = true }
-        updateDateLabel()
+        return union
     }
 
     // MARK: 日期标签
@@ -322,9 +343,33 @@ public final class FlipClockView: NSView {
         return Self.dateFormatter.string(from: date)
     }
 
+    /// 计算日期标签在当前 bounds 内的目标 frame（布局避让与实际摆放共用，保证口径一致）
+    private func dateFrame() -> CGRect? {
+        guard bounds.width > 2, bounds.height > 2, settings.showDate else { return nil }
+        let scaleValue = CGFloat(max(0.4, min(1.0, settings.scale)))
+        let fontSize = max(13, min(bounds.width, bounds.height) * 0.032) * scaleValue
+        let font = settings.fontFamily.makeFont(size: fontSize, weight: .regular)
+        let text = dateString(Date())
+        let padX: CGFloat = 6
+        let padY: CGFloat = 3
+        let textSize = (text as NSString).size(withAttributes: [.font: font])
+        let w = ceil(textSize.width + padX * 2)
+        let h = ceil(textSize.height + padY * 2)
+        let margin = CGFloat(settings.dateMargin) * scaleValue
+        switch settings.datePosition {
+        case .topLeading:
+            return CGRect(x: bounds.minX + margin, y: bounds.maxY - margin - h, width: w, height: h)
+        case .topTrailing:
+            return CGRect(x: bounds.maxX - margin - w, y: bounds.maxY - margin - h, width: w, height: h)
+        case .bottomLeading:
+            return CGRect(x: bounds.minX + margin, y: bounds.minY + margin, width: w, height: h)
+        case .bottomTrailing:
+            return CGRect(x: bounds.maxX - margin - w, y: bounds.minY + margin, width: w, height: h)
+        }
+    }
+
     fileprivate func updateDateLabel() {
-        guard bounds.width > 2, bounds.height > 2 else { return }
-        guard settings.showDate else {
+        guard let frame = dateFrame() else {
             dateLabel.isHidden = true
             return
         }
@@ -334,28 +379,8 @@ public final class FlipClockView: NSView {
         let text = dateString(Date())
         let color = NSColor(hex: theme.textHex).withAlphaComponent(0.62)
         dateLabel.update(text: text, font: font, color: color)
-
-        let padX: CGFloat = 6
-        let padY: CGFloat = 3
-        let textSize = (text as NSString).size(withAttributes: [.font: font])
-        let w = ceil(textSize.width + padX * 2)
-        let h = ceil(textSize.height + padY * 2)
-        let margin = CGFloat(settings.dateMargin) * scaleValue
-
-        let x: CGFloat
-        let y: CGFloat
-        switch settings.datePosition {
-        case .topLeading:
-            x = bounds.minX + margin; y = bounds.maxY - margin - h
-        case .topTrailing:
-            x = bounds.maxX - margin - w; y = bounds.maxY - margin - h
-        case .bottomLeading:
-            x = bounds.minX + margin; y = bounds.minY + margin
-        case .bottomTrailing:
-            x = bounds.maxX - margin - w; y = bounds.minY + margin
-        }
-        dateLabel.padding = CGSize(width: padX, height: padY)
-        dateLabel.frame = CGRect(x: x, y: y, width: w, height: h)
+        dateLabel.padding = CGSize(width: 6, height: 3)
+        dateLabel.frame = frame
         dateLabel.isHidden = false
     }
 
