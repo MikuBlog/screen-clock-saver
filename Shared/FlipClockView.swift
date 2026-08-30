@@ -385,6 +385,12 @@ public final class FlipClockView: NSView {
         return Self.dateFormatter.string(from: date)
     }
 
+    /// 日期文字属性（含可调字符间距，单位为字号倍数）
+    private func dateTextAttributes(font: NSFont) -> [NSAttributedString.Key: Any] {
+        let kern = font.pointSize * CGFloat(max(0, settings.dateLetterSpacing))
+        return [.font: font, .kern: kern]
+    }
+
     /// 计算日期标签在当前 bounds 内的目标 frame（布局避让与实际摆放共用，保证口径一致）
     private func dateFrame() -> CGRect? {
         guard bounds.width > 2, bounds.height > 2, settings.showDate else { return nil }
@@ -394,8 +400,11 @@ public final class FlipClockView: NSView {
         let text = dateString(Date())
         let padX: CGFloat = 6
         let padY: CGFloat = 3
-        let textSize = (text as NSString).size(withAttributes: [.font: font])
-        let w = ceil(textSize.width + padX * 2)
+        let attrs = dateTextAttributes(font: font)
+        let kern = font.pointSize * CGFloat(max(0, settings.dateLetterSpacing))
+        let textSize = (text as NSString).size(withAttributes: attrs)
+        // size 会把最后一个字符后的 kern 也算入，居中时扣除，保证视觉居中
+        let w = ceil(textSize.width - kern + padX * 2)
         let h = ceil(textSize.height + padY * 2)
         let margin = CGFloat(settings.dateMargin) * scaleValue
         switch settings.datePosition {
@@ -424,7 +433,8 @@ public final class FlipClockView: NSView {
         let font = settings.fontFamily.makeFont(size: fontSize, weight: .regular)
         let text = dateString(Date())
         let color = NSColor(hex: theme.textHex).withAlphaComponent(0.62)
-        dateLabel.update(text: text, font: font, color: color)
+        let kern = fontSize * CGFloat(max(0, settings.dateLetterSpacing))
+        dateLabel.update(text: text, font: font, color: color, kern: kern)
         dateLabel.padding = CGSize(width: 6, height: 3)
         dateLabel.frame = frame
         dateLabel.isHidden = false
@@ -445,6 +455,7 @@ final class DateLabelView: NSView {
     private var text: String = ""
     private var drawFont: NSFont = .systemFont(ofSize: 16)
     private var drawColor: NSColor = .white
+    private var kern: CGFloat = 0
     var padding: CGSize = .zero
 
     override init(frame frameRect: NSRect) {
@@ -457,27 +468,34 @@ final class DateLabelView: NSView {
 
     override var isOpaque: Bool { false }
 
-    func update(text: String, font: NSFont, color: NSColor) {
+    func update(text: String, font: NSFont, color: NSColor, kern: CGFloat) {
         let changed = text != self.text
             || font.fontName != drawFont.fontName
             || abs(font.pointSize - drawFont.pointSize) > 0.5
+            || abs(kern - self.kern) > 0.01
         self.text = text
         self.drawFont = font
         self.drawColor = color
+        self.kern = kern
         if changed { needsDisplay = true }
+    }
+
+    private var attributes: [NSAttributedString.Key: Any] {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .left
+        paragraph.lineBreakMode = .byClipping
+        return [
+            .font: drawFont,
+            .foregroundColor: drawColor,
+            .paragraphStyle: paragraph,
+            .kern: kern
+        ]
     }
 
     override func draw(_ dirtyRect: NSRect) {
         guard !text.isEmpty else { return }
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.alignment = .left
-        paragraph.lineBreakMode = .byClipping
         (text as NSString).draw(at: CGPoint(x: padding.width, y: padding.height),
-                                withAttributes: [
-                                    .font: drawFont,
-                                    .foregroundColor: drawColor,
-                                    .paragraphStyle: paragraph
-                                ])
+                                withAttributes: attributes)
     }
 }
 

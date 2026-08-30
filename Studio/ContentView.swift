@@ -337,6 +337,12 @@ struct ClockSectionView: View {
                                   range: 20...200,
                                   value: $model.settings.dateMargin)
                             .disabled(!model.settings.showDate)
+                        SliderRow(title: "字符间距",
+                                  valueText: "\(Int((model.settings.dateLetterSpacing * 100).rounded()))%",
+                                  range: 0...0.5,
+                                  value: $model.settings.dateLetterSpacing,
+                                  step: 0.01)
+                            .disabled(!model.settings.showDate)
                     }
                 }
                 .formStyle(.grouped)
