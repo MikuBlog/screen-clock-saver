@@ -65,6 +65,21 @@ struct PreviewStage: View {
     @EnvironmentObject var model: AppModel
     @State private var ratio: PreviewRatio = .currentScreen
 
+    /// 预览的虚拟画布尺寸（pt）。
+    /// 关键：必须用接近真实显示器的点尺寸来布局，再整体缩放进预览框——
+    /// 否则卡片间距 / 圆角 / 日期边距等固定磅值会在小画布上被相对放大，
+    /// 导致预览布局与真机屏保不一致。
+    private func virtualSize(for item: PreviewRatio) -> CGSize {
+        if item == .currentScreen,
+           let screen = NSScreen.main, screen.frame.height > 0 {
+            // 与屏保实际运行时的 bounds 完全一致
+            return screen.frame.size
+        }
+        // 预设比例统一以 1200pt 高为虚拟显示器
+        let height: CGFloat = 1200
+        return CGSize(width: height * item.aspect, height: height)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -82,26 +97,25 @@ struct PreviewStage: View {
             }
 
             GeometryReader { geo in
-                let size = fittedSize(container: geo.size, aspect: ratio.aspect)
-                ZStack {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.gray.opacity(0.12))
-                    ClockPreview(settings: model.settings)
-                        .frame(width: size.width, height: size.height)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray.opacity(0.35), lineWidth: 1)
-                        )
-                }
-                .frame(width: geo.size.width, height: geo.size.height)
+                let virtual = virtualSize(for: ratio)
+                let scale = min(geo.size.width / virtual.width,
+                                geo.size.height / virtual.height)
+                // 缩放后的实际占位
+                let shown = CGSize(width: virtual.width * scale,
+                                   height: virtual.height * scale)
+                // 以真实屏幕点尺寸布局，再等比缩小，保证与真机 1:1 同构
+                ClockPreview(settings: model.settings)
+                    .frame(width: virtual.width, height: virtual.height)
+                    .scaleEffect(scale)
+                    .frame(width: shown.width, height: shown.height)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray.opacity(0.35), lineWidth: 1)
+                    )
+                    .frame(width: geo.size.width, height: geo.size.height)
             }
             .frame(height: 320)
         }
-    }
-
-    private func fittedSize(container: CGSize, aspect: CGFloat) -> CGSize {
-        let width = min(container.width, container.height * aspect)
-        return CGSize(width: width, height: width / aspect)
     }
 }
