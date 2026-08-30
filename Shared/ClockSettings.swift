@@ -73,17 +73,27 @@ public enum ClockKind: String, Codable, CaseIterable, Identifiable {
 
 public enum DatePosition: String, Codable, CaseIterable, Identifiable {
     case topLeading
+    case topCenter
     case topTrailing
     case bottomLeading
+    case bottomCenter
     case bottomTrailing
 
     public var id: String { rawValue }
     public var label: String {
         switch self {
         case .topLeading: return "左上角"
+        case .topCenter: return "顶部居中"
         case .topTrailing: return "右上角"
         case .bottomLeading: return "左下角"
+        case .bottomCenter: return "底部居中"
         case .bottomTrailing: return "右下角"
+        }
+    }
+    public var isTop: Bool {
+        switch self {
+        case .topLeading, .topCenter, .topTrailing: return true
+        case .bottomLeading, .bottomCenter, .bottomTrailing: return false
         }
     }
 }
@@ -95,6 +105,8 @@ public enum DateFormatOption: String, Codable, CaseIterable, Identifiable {
     case chineseWeekday   // 2026年8月30日 周日
     case numeric          // 2026-08-30
     case numericWeekday   // 2026-08-30 周日
+    case english          // Nov 15, 2021
+    case englishWeekday   // Nov 15, 2021 Mon
 
     public var id: String { rawValue }
     public var label: String {
@@ -103,15 +115,26 @@ public enum DateFormatOption: String, Codable, CaseIterable, Identifiable {
         case .chineseWeekday: return "2026年8月30日 周日"
         case .numeric: return "2026-08-30"
         case .numericWeekday: return "2026-08-30 周日"
+        case .english: return "Nov 15, 2021"
+        case .englishWeekday: return "Nov 15, 2021 Mon"
         }
     }
-    /// DateFormatter 模板（zh_CN 本地化）
+    /// DateFormatter 模板
     public var template: String {
         switch self {
         case .chinese: return "yyyy年M月d日"
         case .chineseWeekday: return "yyyy年M月d日 EEE"
         case .numeric: return "yyyy-MM-dd"
         case .numericWeekday: return "yyyy-MM-dd EEE"
+        case .english: return "MMM d, yyyy"
+        case .englishWeekday: return "MMM d, yyyy EEE"
+        }
+    }
+    /// 英文格式需要 en_US 本地化（月份 / 周几缩写）
+    public var isEnglish: Bool {
+        switch self {
+        case .english, .englishWeekday: return true
+        default: return false
         }
     }
 }

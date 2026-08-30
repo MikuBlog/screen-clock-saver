@@ -262,9 +262,23 @@ public final class FlipClockView: NSView {
         if settings.clockKind.isAnalog {
             CATransaction.begin()
             CATransaction.setDisableActions(true)
-            let diameter = min(bounds.width, bounds.height) * 0.94 * scaleValue
-            analogView.frame = CGRect(x: bounds.midX - diameter / 2,
-                                      y: bounds.midY - diameter / 2,
+            var stage = bounds
+            // 日期压到表盘时，在日期对侧让出安全区
+            if settings.showDate, let df = dateFrame() {
+                let d0 = min(bounds.width, bounds.height) * 0.94 * scaleValue
+                let dial0 = CGRect(x: bounds.midX - d0 / 2, y: bounds.midY - d0 / 2,
+                                   width: d0, height: d0)
+                if dial0.insetBy(dx: -8, dy: -8).intersects(df) {
+                    let dateFontSize = max(13, min(bounds.width, bounds.height) * 0.032) * scaleValue
+                    let band = CGFloat(settings.dateMargin) * scaleValue + dateFontSize * 1.6
+                    stage = settings.datePosition.isTop
+                        ? CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width, height: bounds.height - band)
+                        : CGRect(x: bounds.minX, y: bounds.minY + band, width: bounds.width, height: bounds.height - band)
+                }
+            }
+            let diameter = min(stage.width, stage.height) * 0.94 * scaleValue
+            analogView.frame = CGRect(x: stage.midX - diameter / 2,
+                                      y: stage.midY - diameter / 2,
                                       width: diameter, height: diameter)
             CATransaction.commit()
             analogView.needsDisplay = true
@@ -293,10 +307,10 @@ public final class FlipClockView: NSView {
                 let band = CGFloat(settings.dateMargin) * scaleValue + dateFontSize * 1.6
                 let container: CGRect
                 switch settings.datePosition {
-                case .topLeading, .topTrailing:
+                case .topLeading, .topCenter, .topTrailing:
                     container = CGRect(x: bounds.minX, y: bounds.minY,
                                        width: bounds.width, height: bounds.height - band)
-                case .bottomLeading, .bottomTrailing:
+                case .bottomLeading, .bottomCenter, .bottomTrailing:
                     container = CGRect(x: bounds.minX, y: bounds.minY + band,
                                        width: bounds.width, height: bounds.height - band)
                 }
@@ -366,6 +380,7 @@ public final class FlipClockView: NSView {
     // MARK: 日期标签
 
     private func dateString(_ date: Date) -> String {
+        Self.dateFormatter.locale = Locale(identifier: settings.dateFormat.isEnglish ? "en_US_POSIX" : "zh_CN")
         Self.dateFormatter.dateFormat = settings.dateFormat.template
         return Self.dateFormatter.string(from: date)
     }
@@ -386,10 +401,14 @@ public final class FlipClockView: NSView {
         switch settings.datePosition {
         case .topLeading:
             return CGRect(x: bounds.minX + margin, y: bounds.maxY - margin - h, width: w, height: h)
+        case .topCenter:
+            return CGRect(x: bounds.midX - w / 2, y: bounds.maxY - margin - h, width: w, height: h)
         case .topTrailing:
             return CGRect(x: bounds.maxX - margin - w, y: bounds.maxY - margin - h, width: w, height: h)
         case .bottomLeading:
             return CGRect(x: bounds.minX + margin, y: bounds.minY + margin, width: w, height: h)
+        case .bottomCenter:
+            return CGRect(x: bounds.midX - w / 2, y: bounds.minY + margin, width: w, height: h)
         case .bottomTrailing:
             return CGRect(x: bounds.maxX - margin - w, y: bounds.minY + margin, width: w, height: h)
         }
