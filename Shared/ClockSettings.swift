@@ -253,6 +253,10 @@ public struct ClockSettings: Codable, Equatable {
     public var dateMargin: Double
     /// 日期字符间距（相对字号的倍数，0 ~ 0.5）
     public var dateLetterSpacing: Double
+    /// 日期字重
+    public var dateFontWeight: ClockFontWeight
+    /// 日期字号倍率（相对自动字号，0.5 ~ 2.0）
+    public var dateFontScale: Double
 
     /// 布局方向
     public var layoutMode: LayoutMode
@@ -280,6 +284,8 @@ public struct ClockSettings: Codable, Equatable {
         showDate = false
         datePosition = .topTrailing
         dateLetterSpacing = 0
+        dateFontWeight = .regular
+        dateFontScale = 1.0
         dateFormat = .chineseWeekday
         dateMargin = 70
         layoutMode = .automatic
@@ -312,6 +318,8 @@ public struct ClockSettings: Codable, Equatable {
         if let v = try? c.decode(DateFormatOption.self, forKey: .dateFormat) { dateFormat = v }
         if let v = try? c.decode(Double.self, forKey: .dateMargin) { dateMargin = v }
         if let v = try? c.decode(Double.self, forKey: .dateLetterSpacing) { dateLetterSpacing = v }
+        if let v = try? c.decode(ClockFontWeight.self, forKey: .dateFontWeight) { dateFontWeight = v }
+        if let v = try? c.decode(Double.self, forKey: .dateFontScale) { dateFontScale = v }
         if let v = try? c.decode(LayoutMode.self, forKey: .layoutMode) { layoutMode = v }
         if let v = try? c.decode(DisplayMode.self, forKey: .displayMode) { displayMode = v }
     }

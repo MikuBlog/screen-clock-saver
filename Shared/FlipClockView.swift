@@ -269,7 +269,7 @@ public final class FlipClockView: NSView {
                 let dial0 = CGRect(x: bounds.midX - d0 / 2, y: bounds.midY - d0 / 2,
                                    width: d0, height: d0)
                 if dial0.insetBy(dx: -8, dy: -8).intersects(df) {
-                    let dateFontSize = max(13, min(bounds.width, bounds.height) * 0.032) * scaleValue
+                    let dateFontSize = computedDateFontSize()
                     let band = CGFloat(settings.dateMargin) * scaleValue + dateFontSize * 1.6
                     stage = settings.datePosition.isTop
                         ? CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width, height: bounds.height - band)
@@ -303,7 +303,7 @@ public final class FlipClockView: NSView {
         // 第二遍：只有当时钟真的会压到角落的日期时，才在日期所在边让出安全区重新布局
         if settings.showDate, let df = dateFrame() {
             if clockFrame.insetBy(dx: -8, dy: -8).intersects(df) {
-                let dateFontSize = max(13, min(bounds.width, bounds.height) * 0.032) * scaleValue
+                let dateFontSize = computedDateFontSize()
                 let band = CGFloat(settings.dateMargin) * scaleValue + dateFontSize * 1.6
                 let container: CGRect
                 switch settings.datePosition {
@@ -385,6 +385,18 @@ public final class FlipClockView: NSView {
         return Self.dateFormatter.string(from: date)
     }
 
+    /// 日期字号：随屏幕尺寸自适应，再乘用户字号倍率与整体尺寸
+    private func computedDateFontSize() -> CGFloat {
+        let scaleValue = CGFloat(max(0.4, min(1.0, settings.scale)))
+        let base = max(13, min(bounds.width, bounds.height) * 0.032)
+        return base * CGFloat(max(0.3, min(2.5, settings.dateFontScale))) * scaleValue
+    }
+
+    private func makeDateFont() -> NSFont {
+        settings.fontFamily.makeFont(size: computedDateFontSize(),
+                                     weight: NSFont.Weight(rawValue: settings.dateFontWeight.weightValue))
+    }
+
     /// 日期文字属性（含可调字符间距，单位为字号倍数）
     private func dateTextAttributes(font: NSFont) -> [NSAttributedString.Key: Any] {
         let kern = font.pointSize * CGFloat(max(0, settings.dateLetterSpacing))
@@ -394,9 +406,7 @@ public final class FlipClockView: NSView {
     /// 计算日期标签在当前 bounds 内的目标 frame（布局避让与实际摆放共用，保证口径一致）
     private func dateFrame() -> CGRect? {
         guard bounds.width > 2, bounds.height > 2, settings.showDate else { return nil }
-        let scaleValue = CGFloat(max(0.4, min(1.0, settings.scale)))
-        let fontSize = max(13, min(bounds.width, bounds.height) * 0.032) * scaleValue
-        let font = settings.fontFamily.makeFont(size: fontSize, weight: .regular)
+        let font = makeDateFont()
         let text = dateString(Date())
         let padX: CGFloat = 6
         let padY: CGFloat = 3
@@ -406,7 +416,8 @@ public final class FlipClockView: NSView {
         // size 会把最后一个字符后的 kern 也算入，居中时扣除，保证视觉居中
         let w = ceil(textSize.width - kern + padX * 2)
         let h = ceil(textSize.height + padY * 2)
-        let margin = CGFloat(settings.dateMargin) * scaleValue
+        let margin = CGFloat(settings.dateMargin)
+            * CGFloat(max(0.4, min(1.0, settings.scale)))
         switch settings.datePosition {
         case .topLeading:
             return CGRect(x: bounds.minX + margin, y: bounds.maxY - margin - h, width: w, height: h)
@@ -428,9 +439,8 @@ public final class FlipClockView: NSView {
             dateLabel.isHidden = true
             return
         }
-        let scaleValue = CGFloat(max(0.4, min(1.0, settings.scale)))
-        let fontSize = max(13, min(bounds.width, bounds.height) * 0.032) * scaleValue
-        let font = settings.fontFamily.makeFont(size: fontSize, weight: .regular)
+        let fontSize = computedDateFontSize()
+        let font = makeDateFont()
         let text = dateString(Date())
         let color = NSColor(hex: theme.textHex).withAlphaComponent(0.62)
         let kern = fontSize * CGFloat(max(0, settings.dateLetterSpacing))

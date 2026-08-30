@@ -343,6 +343,19 @@ struct ClockSectionView: View {
                                   value: $model.settings.dateLetterSpacing,
                                   step: 0.01)
                             .disabled(!model.settings.showDate)
+                        Picker("日期字重", selection: $model.settings.dateFontWeight) {
+                            ForEach(ClockFontWeight.allCases) { weight in
+                                Text(weight.label).tag(weight)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .disabled(!model.settings.showDate)
+                        SliderRow(title: "日期大小",
+                                  valueText: "\(Int((model.settings.dateFontScale * 100).rounded()))%",
+                                  range: 0.5...2.0,
+                                  value: $model.settings.dateFontScale,
+                                  step: 0.05)
+                            .disabled(!model.settings.showDate)
                     }
                 }
                 .formStyle(.grouped)
