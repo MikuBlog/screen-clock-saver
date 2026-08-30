@@ -279,14 +279,36 @@ struct ClockSectionView: View {
                 PreviewStage()
 
                 Form {
+                    Section("时钟样式") {
+                        Picker("样式", selection: $model.settings.clockKind) {
+                            ForEach(ClockKind.allCases) { kind in
+                                Text(kind.label).tag(kind)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        if model.settings.clockKind.isAnalog {
+                            Toggle("显示秒针", isOn: $model.settings.showSeconds)
+                            Toggle("秒针平滑扫秒（关闭则逐秒跳动）",
+                                   isOn: $model.settings.smoothSecondHand)
+                                .disabled(!model.settings.showSeconds)
+                        }
+                    }
                     Section("时间制式") {
                         Toggle("使用 24 小时制（关闭则为 12 小时制）", isOn: $model.settings.use24Hour)
+                            .disabled(model.settings.clockKind.isAnalog)
                         Toggle("12 小时制下显示 AM / PM", isOn: $model.settings.showPeriod)
-                            .disabled(model.settings.use24Hour)
-                        Toggle("显示秒", isOn: $model.settings.showSeconds)
+                            .disabled(model.settings.use24Hour || model.settings.clockKind.isAnalog)
+                        if !model.settings.clockKind.isAnalog {
+                            Toggle("显示秒", isOn: $model.settings.showSeconds)
+                        }
                     }
                     Section("字体样式") {
                         FontFamilyPicker(selection: $model.settings.fontFamily)
+                        if model.settings.clockKind.isAnalog {
+                            Text("字体用于经典指针款的表盘数字。")
+                                .font(.system(size: 12))
+                                .foregroundStyle(.secondary)
+                        }
                     }
                     Section("数字字重") {
                         Picker("数字字重", selection: $model.settings.fontWeight) {
@@ -358,25 +380,33 @@ struct AppearanceView: View {
                               valueText: percent(model.settings.brightness),
                               range: 0.05...1.0,
                               value: $model.settings.brightness)
+                    let analog = model.settings.clockKind.isAnalog
                     SliderRow(title: "圆角",
                               valueText: String(format: "%.0f pt", model.settings.cornerRadius),
                               range: 0...120,
                               value: $model.settings.cornerRadius)
+                        .disabled(analog)
                     SliderRow(title: "卡片间距",
                               valueText: String(format: "%.0f pt", model.settings.cardGap),
                               range: 0...200,
                               value: $model.settings.cardGap)
+                        .disabled(analog)
                     SliderRow(title: "阴影强度",
                               valueText: percent(model.settings.shadowIntensity),
                               range: 0...1.0,
                               value: $model.settings.shadowIntensity)
+                        .disabled(analog)
                     SliderRow(title: "翻页速度",
                               valueText: String(format: "%.2f s", model.settings.flipDuration),
                               range: 0.2...1.5,
                               value: $model.settings.flipDuration)
+                        .disabled(analog)
                     Toggle("显示翻页动画与中央转轴", isOn: $model.settings.flipEnabled)
+                        .disabled(analog)
                     Toggle("显示卡片分割线（中缝与数字间竖线）", isOn: $model.settings.showCardSeams)
+                        .disabled(analog)
                     Toggle("显示卡片底板（关闭后仅保留数字）", isOn: $model.settings.showCardBackground)
+                        .disabled(analog)
                 }
             }
             .padding(24)
@@ -437,7 +467,8 @@ struct LayoutView: View {
                         }
                     }
                     .pickerStyle(.radioGroup)
-                    Text("自动模式下，横屏显示器左右排列，竖屏显示器上下堆叠；横纵布局与带鱼屏均自动适配。")
+                    .disabled(model.settings.clockKind.isAnalog)
+                    Text("自动模式下，横屏显示器左右排列，竖屏显示器上下堆叠；横纵布局与带鱼屏均自动适配。指针表盘始终居中显示。")
                         .font(.system(size: 12))
                         .foregroundStyle(.secondary)
                 }

@@ -9,6 +9,7 @@
 ## 功能清单
 
 ### 时钟
+- 三种时钟样式：**翻页数字**（经典 flip）、**极简指针**（12 根刻度、无数字）、**经典指针**（阿拉伯数字表盘 + 红色秒针）；指针款支持秒针平滑扫秒 / 逐秒跳动
 - 12 / 24 小时制切换
 - 可选显示秒
 - 12 小时制下显示 AM / PM 小卡片
@@ -52,7 +53,8 @@ screen-clock-saver/
 │   ├── ClockSettings.swift       # 配置模型（向前兼容解码）
 │   ├── Theme.swift               # 内置主题 + 十六进制颜色
 │   ├── SettingsStore.swift       # 共享 JSON 持久化
-│   └── FlipClockView.swift       # 翻页时钟渲染引擎（AppKit + CALayer）
+│   ├── FlipClockView.swift       # 翻页时钟渲染引擎（AppKit + CALayer）
+│   └── AnalogClockView.swift     # 指针式表盘（Core Graphics 绘制）
 ├── Saver/                        # 屏保 Target（ScreenClock.saver）
 │   ├── ScreenClockSaverView.swift
 │   └── Info.plist

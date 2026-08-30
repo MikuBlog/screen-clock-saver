@@ -25,6 +25,7 @@ SOURCES = [
     ("Shared", "Theme.swift", ["saver", "app"]),
     ("Shared", "SettingsStore.swift", ["saver", "app"]),
     ("Shared", "FlipClockView.swift", ["saver", "app"]),
+    ("Shared", "AnalogClockView.swift", ["saver", "app"]),
     ("Saver", "ScreenClockSaverView.swift", ["saver"]),
     ("Studio", "AppModel.swift", ["app"]),
     ("Studio", "StudioApp.swift", ["app"]),
@@ -188,6 +189,7 @@ sections["PBXGroup"].append(group_block(GROUP_SHARED, "Shared", [
     ref_line("Shared/Theme.swift", "Theme.swift"),
     ref_line("Shared/SettingsStore.swift", "SettingsStore.swift"),
     ref_line("Shared/FlipClockView.swift", "FlipClockView.swift"),
+    ref_line("Shared/AnalogClockView.swift", "AnalogClockView.swift"),
 ], path="Shared"))
 sections["PBXGroup"].append(group_block(GROUP_SAVER, "Saver", [
     ref_line("Saver/ScreenClockSaverView.swift", "ScreenClockSaverView.swift"),

@@ -16,16 +16,6 @@
 			fileRef = 650695647BBEEC06A8ACEDB7 /* app:ClockSettings.swift */;
 			isa = PBXBuildFile;
 		};
-		A1B2C3D4E5F60718293A4B5C /* PBXBuildFile */ = {
-			isa = PBXBuildFile;
-			fileRef = 1A2B3C4D5E6F7081920A1B2C /* saver:ClockFont.swift */;
-			isa = PBXBuildFile;
-		};
-		B2C3D4E5F60718293A4B5C6D /* PBXBuildFile */ = {
-			isa = PBXBuildFile;
-			fileRef = 1A2B3C4D5E6F7081920A1B2C /* app:ClockFont.swift */;
-			isa = PBXBuildFile;
-		};
 		56194F81D044C43BC931CD1D /* PBXBuildFile */ = {
 			isa = PBXBuildFile;
 			fileRef = C5037554D42877C46C7DF47A /* saver:Theme.swift */;
@@ -54,6 +44,16 @@
 		111CAF17517F231DBC47F92C /* PBXBuildFile */ = {
 			isa = PBXBuildFile;
 			fileRef = A40D8B869EEDCCD15E87146D /* app:FlipClockView.swift */;
+			isa = PBXBuildFile;
+		};
+		CC5937F1CA1CE63FEEF3BE63 /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 824638D7356B65DEBFB921F3 /* saver:AnalogClockView.swift */;
+			isa = PBXBuildFile;
+		};
+		B3C770FB6C828ABC969034C2 /* PBXBuildFile */ = {
+			isa = PBXBuildFile;
+			fileRef = 824638D7356B65DEBFB921F3 /* app:AnalogClockView.swift */;
 			isa = PBXBuildFile;
 		};
 		2C4C6F51646F6100D80538AC /* PBXBuildFile */ = {
@@ -126,13 +126,6 @@
 			path = "ClockSettings.swift";
 			sourceTree = "<group>";
 		};
-		1A2B3C4D5E6F7081920A1B2C /* PBXFileReference */ = {
-			isa = PBXFileReference;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.swift;
-			path = "ClockFont.swift";
-			sourceTree = "<group>";
-		};
 		C5037554D42877C46C7DF47A /* PBXFileReference */ = {
 			isa = PBXFileReference;
 			isa = PBXFileReference;
@@ -152,6 +145,13 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.swift;
 			path = "FlipClockView.swift";
+			sourceTree = "<group>";
+		};
+		824638D7356B65DEBFB921F3 /* PBXFileReference */ = {
+			isa = PBXFileReference;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "AnalogClockView.swift";
 			sourceTree = "<group>";
 		};
 		5FDF697B276A299008812A42 /* PBXFileReference */ = {
@@ -258,10 +258,10 @@
 			isa = PBXGroup;
 			children = (
 				650695647BBEEC06A8ACEDB7 /* ClockSettings.swift */,
-				1A2B3C4D5E6F7081920A1B2C /* ClockFont.swift */,
 				C5037554D42877C46C7DF47A /* Theme.swift */,
 				41B9C1240CA91CC34F34AB7B /* SettingsStore.swift */,
-				A40D8B869EEDCCD15E87146D /* FlipClockView.swift */
+				A40D8B869EEDCCD15E87146D /* FlipClockView.swift */,
+				824638D7356B65DEBFB921F3 /* AnalogClockView.swift */
 			);
 			path = "Shared";
 			name = "Shared";
@@ -384,10 +384,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B23E322838A3E7E04A2BB634,
-				A1B2C3D4E5F60718293A4B5C,
 				56194F81D044C43BC931CD1D,
 				74D1F6CA170F0E4E2D295B4F,
 				E08ACE4E63998899C8CBD278,
+				CC5937F1CA1CE63FEEF3BE63,
 				2C4C6F51646F6100D80538AC
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,10 +397,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DCCBCA3837F1A6645169392,
-				B2C3D4E5F60718293A4B5C6D,
 				CE26673E065D841C47878A49,
 				34513D7C29C9876A3B6B4689,
 				111CAF17517F231DBC47F92C,
+				B3C770FB6C828ABC969034C2,
 				12813A4ED57FFBE4B5FF948C,
 				C8ED22D6E464DDAC00866AEA,
 				D9C039D66DA82475A072981E,

@@ -24,7 +24,7 @@ OBJ="$ROOT/build/obj"
 DIST="$ROOT/build/dist"
 DMG_STAGE="$ROOT/build/dmgstage"
 
-SHARED_SOURCES=(Shared/ClockSettings.swift Shared/ClockFont.swift Shared/Theme.swift Shared/SettingsStore.swift Shared/FlipClockView.swift)
+SHARED_SOURCES=(Shared/ClockSettings.swift Shared/ClockFont.swift Shared/Theme.swift Shared/SettingsStore.swift Shared/FlipClockView.swift Shared/AnalogClockView.swift)
 SAVER_SOURCES=("${SHARED_SOURCES[@]}" Saver/ScreenClockSaverView.swift)
 APP_SOURCES=("${SHARED_SOURCES[@]}" Studio/AppModel.swift Studio/StudioApp.swift Studio/ContentView.swift Studio/ClockPreview.swift Studio/SaverInstaller.swift)
 

@@ -51,6 +51,24 @@ public enum DisplayMode: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+// MARK: - 时钟样式
+
+public enum ClockKind: String, Codable, CaseIterable, Identifiable {
+    case flipDigital      // 翻页数字
+    case analogMinimal    // 极简指针（刻度）
+    case analogClassic    // 经典指针（阿拉伯数字 + 红秒针）
+
+    public var id: String { rawValue }
+    public var label: String {
+        switch self {
+        case .flipDigital: return "翻页数字"
+        case .analogMinimal: return "极简指针"
+        case .analogClassic: return "经典指针"
+        }
+    }
+    public var isAnalog: Bool { self != .flipDigital }
+}
+
 // MARK: - 日期位置
 
 public enum DatePosition: String, Codable, CaseIterable, Identifiable {
@@ -163,6 +181,11 @@ public struct ClockTheme: Codable, Hashable, Identifiable {
 // MARK: - 全部设置
 
 public struct ClockSettings: Codable, Equatable {
+    /// 时钟样式
+    public var clockKind: ClockKind
+    /// 指针式秒针是否平滑扫秒（false 为逐秒跳动）
+    public var smoothSecondHand: Bool
+
     /// 24 小时制（false 为 12 小时制）
     public var use24Hour: Bool
     /// 显示秒
@@ -212,6 +235,8 @@ public struct ClockSettings: Codable, Equatable {
     public var displayMode: DisplayMode
 
     public init() {
+        clockKind = .flipDigital
+        smoothSecondHand = true
         use24Hour = true
         showSeconds = false
         showPeriod = true
@@ -239,6 +264,8 @@ public struct ClockSettings: Codable, Equatable {
     public init(from decoder: Decoder) throws {
         self.init()
         let c = try decoder.container(keyedBy: CodingKeys.self)
+        if let v = try? c.decode(ClockKind.self, forKey: .clockKind) { clockKind = v }
+        if let v = try? c.decode(Bool.self, forKey: .smoothSecondHand) { smoothSecondHand = v }
         if let v = try? c.decode(Bool.self, forKey: .use24Hour) { use24Hour = v }
         if let v = try? c.decode(Bool.self, forKey: .showSeconds) { showSeconds = v }
         if let v = try? c.decode(Bool.self, forKey: .showPeriod) { showPeriod = v }

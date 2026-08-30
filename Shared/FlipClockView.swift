@@ -24,6 +24,7 @@ public final class FlipClockView: NSView {
     private var groups: [String] = []
     private var groupViews: [FlipGroupView] = []
     private let dateLabel = DateLabelView()
+    private let analogView = AnalogClockView()
     private var clockTimer: Timer?
     private var animTimer: Timer?
 
@@ -41,6 +42,7 @@ public final class FlipClockView: NSView {
             } else {
                 startClockTimer()
             }
+            analogView.setPaused(isPaused)
         }
     }
 
@@ -67,6 +69,7 @@ public final class FlipClockView: NSView {
         layer?.backgroundColor = NSColor(hex: theme.backgroundHex).cgColor
         groups = computeGroups(Date())
         rebuildGroupViews()
+        addSubview(analogView)
         addSubview(dateLabel)
         applyColors()
         needsLayout = true
@@ -113,6 +116,13 @@ public final class FlipClockView: NSView {
         theme = ClockThemes.theme(newSettings.themeID)
         applyColors()
 
+        // 数字 / 指针样式切换
+        let analogOn = newSettings.clockKind.isAnalog
+        groupViews.forEach { $0.isHidden = analogOn }
+        analogView.isHidden = !analogOn
+        analogView.configure(newSettings, theme: theme)
+        analogView.setPaused(isPaused)
+
         groups = computeGroups(Date())
         if structureChanged || groups.count != groupViews.count {
             rebuildGroupViews()
@@ -131,6 +141,7 @@ public final class FlipClockView: NSView {
         let brightness = max(0.05, min(1.0, settings.brightness))
         groupViews.forEach { $0.layer?.opacity = Float(brightness) }
         dateLabel.layer?.opacity = Float(brightness)
+        analogView.layer?.opacity = Float(brightness)
     }
 
     // MARK: 计时
@@ -156,6 +167,8 @@ public final class FlipClockView: NSView {
             return
         }
         updateDateLabel()
+        // 指针表盘由自身定时器驱动，无需驱动翻页组
+        if settings.clockKind.isAnalog { return }
         let latest = computeGroups(Date())
         guard latest != groups else { return }
         groups = latest
@@ -244,6 +257,20 @@ public final class FlipClockView: NSView {
         let letterFlags = groups.map { Self.isLetterCard($0) }
         let scaleValue = CGFloat(max(0.4, min(1.0, settings.scale)))
         let rawGap = max(0, CGFloat(settings.cardGap))
+
+        // 指针式：表盘为居中正方形，不参与翻页卡片布局
+        if settings.clockKind.isAnalog {
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            let diameter = min(bounds.width, bounds.height) * 0.94 * scaleValue
+            analogView.frame = CGRect(x: bounds.midX - diameter / 2,
+                                      y: bounds.midY - diameter / 2,
+                                      width: diameter, height: diameter)
+            CATransaction.commit()
+            analogView.needsDisplay = true
+            updateDateLabel()
+            return
+        }
 
         let horizontal: Bool
         switch settings.layoutMode {
